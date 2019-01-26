@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -f results.csv
+
+g++ proj4.c -o proj4 -lm -fopenmp
+./proj4 | tee -a results.csv

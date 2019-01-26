@@ -1,0 +1,20 @@
+Erin Alltop
+CS475 - Project 2
+
+This program can be run with the provided script 'run'.
+
+After making sure proj2.c and run are in the same directory, run with the following commands:
+
+// Get permissions to run the script
+
+chmod +x run 
+
+// Run the file
+
+./run
+
+Results will output to the terminal, but there is also a results file that will be created called results.csv (I did this to easily export results to Excel for graph/table creation).
+
+Note that in the script I set parameters to run all four types in one file, so this should only need to be run once for all results.
+
+Thank you!

@@ -1,0 +1,15 @@
+Erin Alltop
+CS475 - Spring 2018
+Project 3
+
+This program is set up with two #ifdef #endif statements that indicate which piece of code to run. When running, for each NUMT it will first run 0-16 trials of Fix 1 with correspondening padding. Then for each NUMT it will run Fix 2.
+
+To run:
+
+1. First make sure run and proj3.c are in the same directory
+2. Type "chmod +x run" without the quotes
+3. Type "./run" without the quotes
+
+Note that the results will also write to "results.csv" file (which I used for importing my data to Excel to create the graphs.)
+
+Thank you!

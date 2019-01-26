@@ -1,0 +1,23 @@
+Erin Alltop
+CS475 - Spring 2018 
+Project 6
+
+This is how you can compile and run these programs - 
+
+Mult Only:
+
+1. chmod +x mult
+2. ./mult
+
+MultAdd
+
+1. chmod +x multAdd
+2. ./multAdd
+
+MultRed
+
+1. chmod +x runReduce
+2. ./runReduce
+
+For all, of course be sure everything is in the same directory. The CL headers should be in their own folder within the main directory.
+For all, output will be put on the screen as well as in a .csv file for ease of importing data to Excel for evaluation.

@@ -1,0 +1,29 @@
+#1/bin/bash
+
+rm -f results.csv
+
+#number of threads:
+for t in 1 2 4 8
+do
+	echo NUMTHREADS = $t
+	
+	g++ -DNUMTHREADS=$t -DCOARSE -DSTATIC proj2.c -o proj2 -lm -fopenmp
+	./proj2 | tee -a results.csv
+	
+	echo -e "COARSE STATIC\n"
+	g++ -DNUMTHREADS=$t -DCOARSE proj2.c -o proj2 -lm -fopenmp
+	./proj2 | tee -a results.csv
+
+	echo -e "COARSE DYNAMIC\n"
+	g++ -DNUMTHREADS=$t -DFINE -DSTATIC proj2.c -o proj2 -lm -fopenmp
+	./proj2 | tee -a results.csv
+
+	echo -e "FINE STATIC\n"
+	
+	g++ -DNUMTHREADS=$t -DFINE proj2.c -o proj2 -lm -fopenmp
+	./proj2 | tee -a results.csv
+	echo -e "FINE DYNAMIC\n"
+
+	echo "" | tee -a results.csv
+done
+

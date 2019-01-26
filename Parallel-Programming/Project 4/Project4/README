@@ -1,0 +1,12 @@
+Erin Alltop
+CS475 - Spring 2018
+Project 4
+
+To run this simulation, do the following:
+
+1. Ensure the "run" and "proj4.c" files are in the same directory
+2. Type "chmod +x run" without the quotes
+3. Type "./run" without the quotes
+
+The results will be displayed both to the output screen and also will be stored in a "results.csv" file used for ease of adding 
+data to excel for evalution.

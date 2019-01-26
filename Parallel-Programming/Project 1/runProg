@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#number of threads:
+for t in 1 2 4 6 8
+do
+	echo NUMT = $t
+	#number of subdivisions:
+	for s in 500 1000 2000 5000 10000
+	do
+		echo NUMNODES = $s
+		g++ -DNUMNODES=$s -DNUMT=$t proj1.c -o proj1 -lm -fopenmp
+		./proj1
+	done
+done

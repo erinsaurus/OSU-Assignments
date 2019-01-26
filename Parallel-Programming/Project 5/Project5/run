@@ -1,0 +1,23 @@
+#!/bin/bash
+
+rm -f results.csv
+
+printf "SIZE,\t\tSSE_ARRAY_MULT,\t\t\tARRAY_MULT,\t\t\tSSE_MULT_RED,\t\t\tMULT_RED,\n" | tee -a results.csv
+
+for t in 1000 10000 50000 100000 500000 1000000 15000000 20000000 32000000
+do
+	echo -n $t | tee -a results.csv
+	printf ", " | tee -a results.csv
+	g++ -DLEN=$t -DSSE_ARRAY_MULT proj5.cpp simd.p5.cpp -o proj5 -lm -fopenmp
+	./proj5 | tee -a results.csv
+
+	g++ -DLEN=$t -DARRAY_MULT proj5.cpp simd.p5.cpp -o proj5 -lm -fopenmp
+	./proj5 | tee -a results.csv
+
+	g++ -DLEN=$t -DSSE_MULT_RED proj5.cpp simd.p5.cpp -o proj5 -lm -fopenmp
+	./proj5 | tee -a results.csv
+
+	g++ -DLEN=$t -DMULT_RED proj5.cpp simd.p5.cpp -o proj5 -lm -fopenmp
+	./proj5 | tee -a results.csv
+	printf "\n" | tee -a results.csv
+done

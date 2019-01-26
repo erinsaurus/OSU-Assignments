@@ -1,0 +1,18 @@
+#!/bin/bash
+
+rm -f results.csv
+
+for G in 1024 2048 4096 8192 16384 32768 65536 131072 262144 524288 1048576 2097152 4194304 8388608 16777216 
+do
+	echo $G | tee -a results.csv
+	printf "," | tee -a results.csv
+
+	for L in 1 2 4 8 16 32 64 128 256 512 1024
+	do
+		echo -n $L | tee -a results.csv
+		printf "," | tee -a results.csv
+		g++ -o second second.cpp -DNUM_ELEMENTS=$G -DLOCAL_SIZE=$L /scratch/cuda-7.0/lib64/libOpenCL.so -lm -fopenmp -w
+		./second | tee -a results.csv
+		printf "\n" | tee -a results.csv
+	done
+done

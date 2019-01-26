@@ -1,0 +1,7 @@
+CS475 - Project 1
+Erin Alltop
+
+To run this code, after making sure runProg and proj1.c are in the same directory:
+
+1. type chmod +x runProg
+2. type ./runProg

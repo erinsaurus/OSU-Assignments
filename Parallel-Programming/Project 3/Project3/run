@@ -1,0 +1,21 @@
+#1/bin/bash
+
+#remove any existing results.csv
+rm -f results.csv
+
+#number of threads:
+for t in 1 2 4 8
+do
+	for p in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+	do
+		echo NUMT = $t NUM = $p
+		g++ -DNUMT=$t -DNUM=$p -DFIX1 proj3.c -o proj3 -lm -fopenmp
+		./proj3 | tee -a results.csv
+	done
+	echo "" | tee -a results.csv
+
+	echo NUMT = $t FIX2
+	g++ -DNUMT=$t -DFIX2 -DNUM=0 proj3.c -o proj3 -lm -fopenmp
+	./proj3 | tee -a results.csv
+	echo "" | tee -a results.csv
+done
