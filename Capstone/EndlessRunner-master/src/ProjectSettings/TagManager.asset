@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - BrickNoDestroy
+  - RedMushroom
+  - DeathArea
+  - Star
+  - Turtle
+  - Goomba
+  - FlyingTurtle
+  - FireFlower
+  - DownPipe
+  - MovingPlatform
+  - Bowser
+  - BowserFire
+  - LifeMushroom
+  - GameManager
+  - Piranha
+  - Fireball
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - PostProcessing
+  - groundLayer
+  - enemyLayer
+  - Player
+  - Item
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3409670707
+    locked: 0
+  - name: Background Objects
+    uniqueID: 764832195
+    locked: 0
+  - name: Player
+    uniqueID: 2134992861
+    locked: 0
+  - name: Foreground
+    uniqueID: 659605839
+    locked: 0
+  - name: enemyLayer
+    uniqueID: 844142093
+    locked: 0
+  - name: UI
+    uniqueID: 837880325
+    locked: 0
