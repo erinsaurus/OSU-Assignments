@@ -1,0 +1,396 @@
+#!/bin/bash
+# Author: Erin Alltop
+# Date: Block 1 - CS344 - Winter 2018
+# Description: This program takes in arguments from the command line to perform
+# arithmetic calculations on a matrix or matrices: finding the dimensions,
+# finding the mean, adding two matricies together, multiplying two matrices together
+
+#command to trap sigs
+trap "rm -f *$$; echo 'CTRL+C received, exiting'; exit 1" INT HUP TERM
+
+
+function cleanUp(){
+# NAME
+# cleanUp - cleans up temporary files after use
+# Description - removes all temporary files after the program
+# executes to prevent excess and useless files.
+
+	rm -f "$tempCol"
+	rm -f "$tempRow"
+	rm -f "$tempFile"
+	rm -f "$tempFile1"
+	rm -f "$results"
+	rm -f "$inputFile"
+	#printf "\nClean up complete.\n"
+}
+
+
+dims() {
+# NAME
+# dims - finds the dimensions of a matrix
+# Description - 
+# Takes in a single argument of a file that contains a matrix and outputs
+# the dimensions - number of rows and columns - of the matrix.
+
+	# error checking - exits to stderr if there are no arguments, too many
+	# arguments, or if the file is invalid
+	
+	#echo "Made it to dims."
+	#echo "Arguments: $#"
+
+	if [ "$1" != "" ] && [ ! -r "$1" ]
+	then
+		echo "Argument passed to dims function is not a valid file">&2
+		exit 1
+	fi
+
+	if [ "$#" -eq 0 ]
+	then
+		echo "No arguments for dims function.">&2
+		exit 1
+	fi
+	
+	if [ "$#" -gt 1 ]
+	then
+		echo "Too many arguments for dims function.">&2
+		exit 1
+	fi
+
+	#echo "inFile:"
+	#cat $1
+
+	# calculations to find the number of rows and columns and outputs to the console
+
+	row=`cat $1 | wc -l`
+	col=`head -n 1 $1 | wc -w`
+	echo $row $col
+	cleanUp	
+}
+
+transpose(){
+
+# NAME
+# transpose - transposes a matrix 
+# Description - 
+# Takes in a single argument of a file that contains a matrix of size MxN and outputs a
+# new matrix with the rows and columns inverted to become an NxM matrix
+
+	# error checking - exits to stderr if there are no arguments, too many arguments,
+	# or if the file is invalid
+
+	#if [ "$tempFile1" != "" ] && [ ! -r "$tempFile1" ]; then	
+
+	
+
+	if [ "$1" != "" ] && [ ! -r "$1" ]
+	then		
+		echo "Argument passed to transpose function is not a valid file.">&2
+		exit 1
+	fi
+	
+	#if [ "$#" -eq 0 ]
+	#then
+	#	echo "No arguments for transpose function.">&2
+	#	exit 1
+	#fi
+
+	if [ "$#" -gt 1 ]
+	then
+		echo "Too many arguments for transpose function.">&2
+		exit 1
+	fi
+	
+	#echo "inFile:"
+	#cat $1
+
+	tempRow="temprowfile$$"
+
+	col=`head -n 1 $1 | wc -w` # Find the number of columns in thet matrix
+
+	# Cut each column the file and paste it as a row in a new file
+	# output the new file with the transposed matrix to the console
+	
+	for ((j = 1; j <= col ; j++ )); do
+		cut -f $j $1 | paste -s >> $tempRow
+	done
+	cat $tempRow			
+	cleanUp
+}
+
+
+mean(){
+
+# NAME
+# mean - finds the mean of each column of a matrix
+# Description -
+# Takes in a single argument of a file that contains a matrix of size MxN and outpits
+# a new matrix of size 1xN that contains the mean of each respective column of the
+# original matrix
+
+	tempRow="temprowfile$$"
+	tempFile="tempfilework$$"
+
+	#find the number of rows and columns of the matrix
+
+	col=`head -n 1 $1 | wc -w`
+	row=`cat $1 | wc -l`
+
+	for ((j = 1; j <= col ; j++ )); do
+		cut -f $j $1 >> $tempFile # Adds the contents of the matrix as one column into one temp file
+	done
+
+	total=0
+	i=0
+	avg=0
+	
+	# Loops through the end of the temp file, adding and averaging every
+	# "rowth" number and adding it to a new temporary file. Then outputs the new file
+	# of the matrix column means
+	
+	while read num; do
+		total=`expr $total + $num`
+		(( i++ ))
+		if [ $i -eq $row ]; then
+			avg=$(( ($total + ($row / 2) * ( ($total>0)*2-1)) / $row ))
+			echo -n -e "$avg\t" >> "$tempRow"
+			i=0
+			total=0
+		fi
+	done < $tempFile
+	cat $tempRow
+	cleanUp
+}
+
+
+add(){
+
+# NAME
+# add - adds two matrices together element-wise, creating a new matrix in its place
+# Description - 
+# Takes in two matrices as arguments, of size MxN and MxN and adds them together element-wise
+# creating a new matrix of size MxN and outputting the results
+
+	#echo "Made it to add function."	
+
+	tempFile="tempfilework$$"
+
+	# Error checking - exits to stderr if there are too many arguments, not enough arguments,
+	# or if the files are invalid	
+
+	if (( $# > 2 )); then
+		echo "Too many arguments for add function." >&2
+		exit 1
+	fi
+
+	if [ "$#" -eq 0 ]; then
+		echo "No arguments for add function.">&2
+		exit 1
+	fi	
+	
+
+	if [ "$1" != "" ] && [ ! -r "$1" ]; then
+		echo "First argument passed to add function is not a valid file." >&2
+		exit 1
+	fi
+
+	if [ "$2" != "" ] && [ ! -r "$2" ]; then
+		echo "Second arugment passed to add function is not a valid file." >&2
+		exit 1
+	fi
+
+	# Find the number of rows and columns of each matrix	
+
+	col1=`head -n 1 $1 | wc -w`
+	row1=`cat $1 | wc -l`
+
+	col2=`head -n 1 $2 | wc -w`
+	row2=`cat $2 | wc -l`
+
+	# To add, matrices must have an equal number of rows and columns.
+	# If not, exit to stderr
+	
+	if [ $col1 -ne $col2 ] || [ $row1 -ne $row2 ]; then
+		echo "Matrices are incompatbile and unable to be added." >&2
+		exit 1
+	fi
+	
+
+	# Read in from both files by column into an array, and adding the element-wise
+	# values of each matrix together. Then add these to a new file to be output to the console
+	
+	varTot=0
+	while read -a line1 <&3 && read -a line2 <&4
+	do
+		for(( i = 0; i < col1; i++ )); do
+
+			varTot=$(( ${line1[i]} + ${line2[i]} ))	# add element-wise to temp variable
+			echo -n -e "$varTot\t" >> "$tempFile"	#add to new file
+		done		
+		printf "\n" >> $tempFile 			#add new line for formatting
+	done 3<$1 4<$2
+	
+	cat $tempFile
+	cleanUp
+}
+
+
+multiply() {
+# NAME
+# mutiply - multiply two matrices together to create a new matrix
+# Description - 
+# Takes an MxN and an NxP matrix as arguments, multiples them together to produce
+# an MxP matrix
+
+	col1=`head -n 1 $1 | wc -w`
+	row1=`cat $1 | wc -l`
+
+	#echo "Matrix 1 col: $col1"
+	#echo "Matrix 1 row: $row1"
+
+	col2=`head -n 1 $2 | wc -w`
+	row2=`cat $2 | wc -l`
+
+	#echo "Matrix 2 col: $col2"
+	#echo "Matrix 2 row: $row2"	
+
+	# The column of the first matrix should be equal to the rows of the second matrix
+	# if not, exit to stderr
+
+	if [ "$col1" -ne "$row2" ]; then
+		echo "Matrices are incompatible and unable to be multiplied.">&2
+		exit 1
+	fi
+
+	#echo "Matriix 1 before:"
+	#cat $1
+	#echo "Matrix 2 before:"
+	#cat $2
+
+	# Transpose matrix 2 to align both matrices for multiplication
+	
+	tempRow="temprowfile$$"
+	tempFile="tempfile$$"
+
+	for (( i = 1; i <= col2 ; i++ )); do
+		cut -f $i $2 | paste -s >> $tempRow
+	done
+
+	#echo "Matrix 2 transposed:"
+	#cat $tempRow
+	#printf "\n"
+
+	# For each row in Matrix 1, go through all rows of transposed Matrix 2 and
+	# multiply values in the same column of each matrix. Add result to the new file
+
+	varTot=0
+	totSum=0
+	results="resultsfile$$"
+	ind=0
+	testVar=0
+	testVar2=0
+
+	while read -a line1 <&3 && read -a line2 <&4
+	do
+		for(( j = 0; j < row1; j++ )); do
+			for (( i = 0; i < col2; i++ )); do
+				for (( k = 0; k < row2; k++ )); do
+					
+				#varTot=$(( ${line1[j]} * ${line2[i]} ))
+				
+				#echo "Multiply: ${line1[(( i * col1 + k  ))]} and ${line2[i]}"
+				
+				testVar=` expr "$i" '*' "$col1" + "$k" `
+				#echo ${line1[`expr $i + $col1 + $k`]}
+				
+				testVar2=` expr "$k" '*' "$col2" + "$j" `
+				
+				#echo "Multiply:"
+				#echo ${line1[testVar]} 
+				#echo ${line2[testVar2]}
+
+
+				#totSum=${line1[$testVar]} * ${line2[$testVar2]}
+				#echo $totSum		
+					
+				#echo "Product: $varTot"
+				#totSum=$((varTot + totSum))
+				#echo "Total Sum: $totSum"
+
+				done
+			done	
+		done
+		totSum=0
+
+	#	done
+	
+	#	echo -n -e "$totSum\t" >> "$tempFile"
+	#	totSum=0	
+	#	#row2=2
+		
+	#	printf "\n" >> $tempFile		 
+	#	cat $tempFile
+	#
+		#done
+
+	#	tempRows=`cat $tempFile | wc -l`
+	#	echo $tempRows		
+
+	#	if [ "$tempRows" -eq "$col2" ] 
+	#	then
+	#		for (( i = 1; i <= tempRows ; i++ )); do
+	#			cut -f $i $tempFile | paste -s >> $results
+	#		done
+	#		echo "Results file:"
+	#		cat $results
+	#	fi
+	
+#	> $tempFile	
+#	cat $tempFile
+#	cat $results
+	
+	done 3<$1 4<$tempRow
+	
+	cleanUp
+}
+
+
+inputFile="inputFile$$"
+
+
+if [[ $1 == "dims" || $1 == "transpose" || $1 == "mean" ]] && [[ $# == 2 || -p /dev/stdin ]]; then
+	if [[ $# == 2 && -f $2 ]]; then
+		$1 "${@:2}"
+
+	elif [ ! -f $2 ]; then
+		echo "File not found.">&2
+		exit 1
+	else
+		cat $2 > $inputFile
+
+		if [ $1 == "dims" ]
+		then
+			dims $inputFile
+		elif [ $1 == "transpose" ]
+		then
+			transpose $inputFile
+		elif [ $1 == "mean" ]
+		then
+			mean $inputFile
+		fi
+	fi
+elif [ $1 == "add" ] && [ $# == 3 ]; then
+		if [[ -s $2 && -s $3 ]]; then
+			if [[ $2 && $3 ]]; then
+				$1 "${@:2}"
+			else	
+				echo "Invalid files.">&2
+				exit 1
+			fi
+		else
+			echo "File not found.">&2
+			exit 1
+		fi
+else
+	echo "Invalid file">&2
+	exit 1
+fi
