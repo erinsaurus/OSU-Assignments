@@ -1,0 +1,18 @@
+Erin Alltop
+CS372 - Spring 2018
+Project 2
+
+EXTRA CREDIT: The server is multithreaded.
+The connection is created with five possible connections able to be connected. For each child, there is a loop
+that performs all of the normal operations of the client/server relationship. The loop waits for all children
+to be completed (and exits on SIGINT).
+
+To compile and run this program - 
+
+**** NOTE: THESE PROGRAMS NEED TO BE RUN ON THE SAME FLIP OR ELSE THEY WILL NOT FUNCTION ****
+
+1. Be sure compile and ftserver.c are in the same directory
+2. Type 'chmod +x compile' without the quotes OR just type 'gcc -o ftserver ftserver.c' without the quotes
+3. Start the server with --- './ftserver [port number]' without the quotes
+4. Next start the client with --- 'python ftclient.py [server name] [server port] [command] [file name (if applicable)] [data port]'
+

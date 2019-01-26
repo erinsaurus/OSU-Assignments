@@ -1,0 +1,5 @@
+#!/bin/bash
+
+gcc -o chatclient chatclient.c
+
+python ./chatserve.py $1

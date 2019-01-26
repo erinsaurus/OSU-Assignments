@@ -1,0 +1,19 @@
+Erin Alltop
+CS372 - Spring 2018
+Project 1
+
+This program consists of two files and a Bash script:
+
+	1. chatserve.py
+	2. chatclient.c
+	3. chatserve
+
+To run this program, first ensure all files are in the same directory on Flip.
+Next use the command "chmod +x chatserve" (without the quotes) to get permissions for the Bash script.
+The script will compile the chatclient.c file as well as initiate the chatserve.py program. After changing permissions, you can run per the instructions:
+
+1. chmod +x chatserve
+2. chatserve [port]
+3. ./chatclient [server] [port]
+
+Thank you!
