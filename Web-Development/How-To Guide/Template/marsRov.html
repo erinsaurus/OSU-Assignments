@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<!--
+	Binary by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Using the NASA API by Erin Alltop</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<a href="home.html" class="logo"><strong>Using the NASA API</strong> by Erin Alltop</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="home.html">Home</a></li>
+					<li><a href="nasaAPI.html">NASA API Intro</a></li>
+					<li><a href="getKey.html">Get your API Key</a></li>
+					<li><a href="introJSON.html">Working with JSON</a></li>
+					<li><a href="potd.html">Picture of the Day</a></li>
+					<li><a href="marsRov.html">Mars Rover Images</a></li>
+					<li><a href="putTogeth.html">Putting it Together</a></li>
+				</ul>
+			</nav>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+					<div class="image fit">
+						<img src="images/mars1.jpg" alt="" />
+					</div>
+					<header>
+						<h1>Mars Rover Photos</h1>
+						<p class="info">See more of the <a href="https://api.nasa.gov/api.html#MarsPhotos">Mars Rover API</a></p>
+					</header>
+					<p>The Mars Rover Photos API is a collection of photos gathered by NASA's Curiosity, Opportunity, and Spirit rovers that currently active on Mars. There are many queries that can be made with this API to display a wide range of images. You can query the API to search by specific rover, sol date, and by the camera. You can see a full list of possibly queries on NASA's page for the API by <a href="https://api.nasa.gov/api.html#MarsPhotos">clicking here</a>.</p>
+
+					<p>An example of a query you might make to retrieve an image from a Mars Rover might look like this:
+					<div>
+
+						<strong>https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=DEMO_KEY</strong>
+						</div>
+
+						<p><br>This query has a bit more information than the Photo of the Day query has. Let's break it down a bit:</p>
+
+						<div>
+						<strong>https://api.nasa.gov/mars-photos/api/v1/rovers/:</strong> This portion of the URL takes us to where the Mars photos are located.<br>
+						<strong>curiosity/photos:</strong> This indicates that we wish to view the photos of the Curiosity Mars rover.<br>
+						<strong>?earth_date=2015-6-3:</strong> This section queries a particular earth date. This will change based on what we are searching for.<br>
+						<strong>&api_key=DEMO_KEY:</strong> We are familiar with this section. This is our API Key (remember to use your unique key in place of DEMO_KEY).<br>
+						</div>
+
+					</p>
+					<p>This time our JSON object does not come out as neat as our previous example:</p>
+
+						<div class="image fit">
+						<img src="images/marsJSON.JPG" alt="" />
+					</div>
+
+					<p>To help visualize what you can parse from this object, there are free tools available online that can make this a bit more readable. One I have found useful is the  <a href="http://jsonformatter.org/">JSON formatter here</a>. When you copy and paste the link or object, you can better visualize what this object contains. Here is a partial screen shot of the above text formatted in a more reader-friendly way.</p>
+
+						<div class="image fit">
+						<img src="images/jsonFormatted.JPG" alt="" />
+					</div>
+
+					<p>There are multiple queries that can be done against the Mars Photos API. You can see the official NASA API documentation linked above to find the many ways to find exactly what you are looking for. We will be focusing specifically on finding photos on a particular date, rover, and camera, as well as demonstrating how the Mars Rover manifests can be queried. First, let's see our code in action!<br></p>
+					<div>
+					<script async src="//jsfiddle.net/alltope/68vmk4hL/9/embed/js,html,result/"></script>
+					</div>
+
+
+					<p>In this fairly simple request, we are sending a query to the NASA API to first obtain and display the first three photos of the Curiosity rover of its NAVCAM on sol day 1000. Then we are making a query against the Curiosity manifest to display some of its properties. Let's break down our code to see what we are doing differently this time:</p>
+
+		
+					<pre><code>var rover = "curiosity";
+var camera = "NAVCAM";
+var sol = "1000";
+
+var req = new XMLHttpRequest;
+var apiKey = "XLRxi1B4ZROjyYrp37sWmKGTArmDVCxyoftMJrgm";
+var url = "https://api.nasa.gov/mars-photos/api/v1/rovers/" + rover + "/photos?sol=" + sol + "&camera=" + camera + "&api_key=" + apiKey;
+req.open("GET", url, true);
+req.send();
+
+req.addEventListener("readystatechange", processRequest, false);
+</code></pre>
+						<p>We are already familiar with this code based on our review of the <a href="potd.html">Photo of the Day</a> section. We first declare our <strong>variables</strong> for our rover, camera, and sol - note that these are declared as a string as they will be inserted into the url for our query. Next, we declare req as a new <strong>XMLHttpRequest object</strong> which is an object used by the browser to send data to and from a server. We are then declaring our <strong>API Key</strong> (in this code I am inserting the API Key I used for this project due to meeting the limitations of the DEMO_KEY during testing, but remember to keep yours secure in your application. For our <strong>URL</strong> we are putting our string and variables together in a variable. Doing it in this way allows us to easily change the parameters of our query when needed. We are now ready to make our request to the server. As before, we are using a <strong>"GET" method</strong> as we are not sending an data to the NASA server. We will also be adding an <strong>eventListener</strong> at this point for our request to call our function when the response is complete. This is indicated by <strong>"readystatechange"</strong>.</p>
+
+
+				
+
+					<pre><code>function processRequest(e) {
+  if (req.readyState == 4 && req.status == 200) {
+    if (response != 0) {
+      var response = JSON.parse(req.responseText);
+
+      document.getElementById("earth_date").textContent = response.photos[1].earth_date;
+      document.getElementById("rover_name").textContent = response.photos[1].rover.name;
+      document.getElementById("camera_name").textContent = response.photos[1].camera.full_name;
+
+      for (var i = 0; i < response.photos.length; i++) {
+        document.getElementById("pic" + i).src = response.photos[i].img_src;
+      }
+    }
+  }
+}</code></pre>
+
+					<p>Next up is our <strong>processRequest function</strong>, where we will again recheck the ready state of our request. <strong>readyState = 4</strong> indicates that the request is complete, and <strong>status == 200</strong> indicates that the request was successful. If our response is not null, we are ready to <strong>parse our JSON object</strong> and set it equal to a new variable: response. We are already familiar by now with obtaining text and images from our parsed object. Note that as the Mars Rover object is much larger with multiple arrays, we are using an array accesser to obtain the information we need. If we did not access the array element in this way, we would obtain an error. In this case, we are using the information found at the '1' location of the photo array with its property elements as a result.<br>
+					In the same fashion, in order to display the first three photos of the photo array, we must use a <strong>for loop</strong> to cycle through the array to display the images properly.
+					</p>
+
+				
+
+					<pre><code>var manReq = new XMLHttpRequest;
+var manUrl = "https://api.nasa.gov/mars-photos/api/v1/manifests/" + rover + "?&api_key=" + apiKey;
+manReq.open("GET", manUrl, true);
+manReq.send();
+
+manReq.addEventListener("readystatechange", manProcessRequest, false);
+</code></pre>
+
+					<p>Here we are using the same methods as our first <strong>XMLHttpRequest</strong> to run a <strong>new query</strong> to the NASA API. This time we are querying the <strong>manifest</strong> instead of by rover, camera, and sol date. Note the differences in the URL. This is simply pulling the entire manifest of the Curiosity rover. Again we add another <strong>eventListener</strong> to call our next function when the response is complete.</p>
+
+
+				
+
+					<pre><code>function manProcessRequest(e) {
+  if (req.readyState == 4 && req.status == 200) {
+    if (response != 0) { 
+      var response = JSON.parse(manReq.responseText);
+      console.log(response);
+      document.getElementById("land_date").textContent = response.photo_manifest.landing_date;
+      document.getElementById("launch_date").textContent = response.photo_manifest.launch_date;
+      document.getElementById("rov_name").textContent = response.photo_manifest.name;
+      document.getElementById("status").textContent = response.photo_manifest.status;
+      document.getElementById("total_pics").textContent = response.photo_manifest.total_photos;
+      document.getElementById("sol_days").textContent = response.photo_manifest.max_sol;
+    }
+  }
+}</code></pre>
+
+					<p>This functions is similar to our first function, though it is a bit simpler as we do not have to access elements of an array. This is closer to our Photo of the Day request that we did in the previous section. Note however, that the manifest contains much more information than is displayed here. You can test for yourself by using the <strong>console.log(response)</strong> code to print the response to your console. By using "inspect element" on the page you will be able to view the response object and see that there is quite a large amount of information that can be used for your application. In this example, we will be displaying the simpler elements of the manifest, as you can see.</p>
+
+					<p>When we put it all together with a bit of HTML, we have our manifest and Mars Rover Photos displaying! In this guide we have reviewed what an API is, what a JSON object is, and how they can both be used in your application. On the next page, we will add our knowledge of the Mars Rover Photos API and some user input to make our app a little more interesting.</p><br>
+
+				
+
+
+
+
+
+
+
+
+
+
+				</div>
+
+				<div style=padding-top=50px>
+				<p>
+				<center>
+					<h4>Where to Next?</h4>
+							<ul class="actions">
+								<li><a href="potd.html" class="button special">Prev: Picture of the Day</a></li>
+								<li><a href="putTogeth.html" class="button">Next: Put it Together!</a></li>
+							</ul>
+							</center>
+					</p>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="copyright">
+					&copy; Erin Alltop. Design by <a href="https://templated.co">TEMPLATED</a>.
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

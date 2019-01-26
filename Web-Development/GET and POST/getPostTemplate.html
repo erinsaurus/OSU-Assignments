@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+	<title>GET and POST Assignment</title>
+</head>
+<body>
+	<h1>{{getPost}} Request Received</h1>
+	
+	<h1>You sent the following data in a {{getPost}} request:</h1>
+	<ul>
+	{{#each param}}
+	<li>{{this.name}}: {{this.value}}
+	{{/each}}
+	</ul>
+
+</body>
+</html>
+
+
+

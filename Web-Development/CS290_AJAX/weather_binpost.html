@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend>What is the weather?</legend>
+
+      <label for="zipCode">Zip Code: </label>
+      <input type="text" name="zipCode" id="zipCode">
+
+        <label for="country">Country: </label>
+      <input type="text" name="country" id="country">
+
+        <input type="submit" id="zipSubmit">
+
+      <p>OR</p> 
+
+      <label for="city">City: </label>
+      <input type="text" name="city" id="city">
+
+      <label for="country">State: </label>
+      <input type="text" name="state" id="state">
+     
+      <input type="submit" id="citySubmit">
+    </fieldset>
+  </form>
+
+  <div>
+    <h2>Current Weather</h2>
+    <ul>
+      <li><span>City: </span><span id="curCity"></span></li>
+      <li><span>Temperature: </span><span id="temperature"></span></li>
+      <li><span>Humidity: </span><span id="humidity"></span></li>
+    </ul>
+  </div>
+
+  <form>
+    <fieldset>
+      <legend>Submit your first and last name via post.</legend>
+      <label for="firstName">First name: </label>
+      <input type="text" name="firstName" id="firstName">
+
+      <label for="lastName">Last name: </label>
+      <input type="text" name="lastName" id="lastName">
+
+      <input type="submit" id="binPost">
+    </fieldset>
+  </form>
+  <br/>
+  <div>
+    <span>httpbin response:</span>
+    <br/>
+
+    <pre id="json"></pre>
+    <span id="binPostContent"></span>
+  </div>
+   <script src='weather.js'></script>
+   <script src='binpost.js'></script>
+</body>
+</html>

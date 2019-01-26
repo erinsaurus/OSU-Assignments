@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<!--
+	Binary by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Using the NASA API by Erin Alltop</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<a href="home.html" class="logo"><strong>Using the NASA API</strong> by Erin Alltop</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="home.html">Home</a></li>
+					<li><a href="nasaAPI.html">NASA API Intro</a></li>
+					<li><a href="getKey.html">Get your API Key</a></li>
+					<li><a href="introJSON.html">Working with JSON</a></li>
+					<li><a href="potd.html">Picture of the Day</a></li>
+					<li><a href="marsRov.html">Mars Rover Images</a></li>
+					<li><a href="putTogeth.html">Putting it Together</a></li>
+				</ul>
+			</nav>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+					<div class="image fit">
+						<img src="images/banner4.jpg" alt="" />
+					</div>
+					<header>
+						<h1>Working with JSON</h1>
+						<p class="info">See more JSON documentation <a href="http://www.json.org/">here</a></p>
+					</header>
+					<p><span class="image right"><img src="images/json-logo.jpg" alt="" /></span>JavaScript Object Notation (JSON) is a syntax for storing and exchanging data between a browser (client) and a server. If you are familiar with Javascript or programming language that contains objects, you are aware that an object has both properties and corresponding values. For example, you might have an object called an 'automobile' that has properties of type make, model, and year, each with their own values. You are likely also aware that you can access these values by using the syntax of your code. Below is a simple example of our automobile object using Java: </p>
+
+					<p>
+					<script async src="//jsfiddle.net/15t2s4eg/1/embed/js,html,result/"></script>
+					</p>
+
+					<p>JSON works by taking an object and its contents and converts it to a simple-to-use format that allows us to send and receive objects from a server without error-prone and complicated parsing and translation. It also has the added benefit of being able to be used by any programming language. The NASA APIs use JSON to send data in object notation from its server to your application. Later on you will learn how to code your application to retrieve the data from the object that it receives.
+					<br><br>
+					Below you will find another simple example using our automobile object again, except this time we will change its notation to be a JSON object and "unpack" it so that we can access its properties. The notation in this example changes slightly. While you will not generally be creating a JSON object yourself as you will be retrieving the JSON objects from a server, you can see that the object is entirely encased in single quotes (denoting it as a single object). You can also see that each property and value is enclosed using double quotes. While Java can be very forgiving with syntax in general, this syntax is required for JSON to work properly.
+
+					</p>
+					<p><script async src="//jsfiddle.net/alltope/hpes89m7/embed/js,html,result/"></script></p>
+
+
+					<p>While we will not be sending JSON objects to the NASA server, for the sake of wrapping up our JSON tutorial neatly, below is our automobile example once again; This time, we are turning our Javascript object into a JSON object and "storing" it in a local storage container. We can then retrieve the object from local storage, parse it as in the above example, and display the properties and values of our automobile.</p>
+
+					<p><script async src="//jsfiddle.net/alltope/fdcc4dso/embed/js,html,result/"></script></p>
+					<p>As it turns out, JSON is a fairly straightforward tool that is extremely useful for data transfer between the client and a server. Hopefully now that you understand the basics of JSON, the next sections will be less daunting. Next we will get to the fun part of this tutorial: creating the code to access and use the NASA API!</p>
+				</div>
+
+				<div style=padding-top=50px>
+				<p>
+				<center>
+					<h4>Where to Next?</h4>
+							<ul class="actions">
+								<li><a href="getKey.html" class="button special">Prev: Get your API Key</a></li>
+								<li><a href="potd.html" class="button">Next: Picture of the Day</a></li>
+							</ul>
+							</center>
+					</p>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="copyright">
+					&copy; Erin Alltop. Design by <a href="https://templated.co">TEMPLATED</a>.
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,11 @@
+<h1>GET Request Received</h1>
+
+{{#if dataList.length}}
+        <h4>Property Name: Value</h4>
+	<ul>
+        {{#each dataList}}
+	<li>{{this.name}}: {{this.value}}
+	{{/each}}
+	</ul>
+{{/if}}
+	

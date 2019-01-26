@@ -1,0 +1,51 @@
+/*table styles*/
+table{
+    border-style:solid;
+}
+th, td{
+    border-style:solid;
+}
+
+/*form positioning*/
+form{
+  position:relative;
+  top:50px;
+}
+
+/*outer div positioning and style*/
+.outer-content{
+  background-color: pink;
+  width:75%;
+  position:relative;
+  left:0px;
+  top:20px;
+  padding: 10px;
+
+}
+
+/*inner div positioning and style*/
+.inner-content{
+  background-color: PowderBlue;
+  width:75%;
+  height: auto;
+  margin: 0 auto;
+  position:relative;
+  text-align: center;
+}
+
+/*table alternating colors*/
+ .new-items-table tbody tr:nth-of-type(odd){
+  background-color:DarkSalmon;
+}
+
+.new-items-table tbody tr:nth-of-type(even){
+  background-color:DarkSeaGreen;
+}
+
+
+/*making first column headers italics*/
+#menu-item{
+  font-weight: normal;
+  font-style: italic;
+  }
+}

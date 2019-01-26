@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<!--
+	Binary by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Using the NASA API by Erin Alltop</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<a href="home.html" class="logo"><strong>Using the NASA API</strong> by Erin Alltop</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="home.html">Home</a></li>
+					<li><a href="nasaAPI.html">NASA API Intro</a></li>
+					<li><a href="getKey.html">Get your API Key</a></li>
+					<li><a href="introJSON.html">Working with JSON</a></li>
+					<li><a href="potd.html">Picture of the Day</a></li>
+					<li><a href="marsRov.html">Mars Rover Images</a></li>
+					<li><a href="putTogeth.html">Putting it Together</a></li>
+				</ul>
+			</nav>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+					<div class="image fit">
+						<img src="images/potd5.jpg" alt="" />
+					</div>
+					<header>
+						<h1>Picture of the Day</h1>
+						<p class="info">See an example of APOD <a href="https://apod.nasa.gov/apod/astropix.html">in action</a></p>
+					</header>
+					<p>Now that we have covered what an API is, how to get your API Key, and how a JSON object works, we are ready for the fun part! The NASA Picture of the Day API is mostly self-explanatory. It returns a JSON object of a select NASA image each day containing properties of the image. You can see for yourself what the object contains by simply putting the request in your address bar. The request will look like this, where YOUR_KEY_HERE is where you will insert your API Key:<br><br>
+
+					<strong>https://api.nasa.gov/planetary/apod?api_key=YOUR_KEY_HERE</strong><br><br>
+
+
+					Below is a screenshot of the JSON object information returned from the server on 2/27/17. As you can see, the object contains properties and values similar to our automobile example we did on the <a href="introJSON.html">Working with JSON</a> page.</p>
+					<div class="image fit">
+						<img src="images/potdJSON.JPG" alt="" />
+					</div>
+
+			
+
+					<h2>How do I get the POTD object?</h2>
+					<p>To access our object, parse it, and make use of it in our application, we must make a request to the server using our key as demonstrated above. We will be using a similar method to our previous automobile example, except this time we will make the call to the NASA server using an XMLHttpRequest object. The XMLHttpRequest object is simply an object that is built into the browser to use to send and receive data from a server. First, let's see our Java in action and then we will delve deeper:</p>
+
+					<iframe width="100%" height="700" src="//jsfiddle.net/alltope/vqaeaov6/5/embedded/js,html,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+			
+					<p>Now let's break down this code a bit as we are seeing some new things that we have not yet seen in this guide. The first section of our code lists out our variables.</p>
+
+			
+
+						<pre><code>var req = new XMLHttpRequest;
+var url = "https://api.nasa.gov/planetary/apod?api_key=";
+var api_key = "DEMO_KEY";</code></pre>
+
+						<p>We give our <strong>XMLHttpRequest object</strong> a name "req." This object will do the heavy lifting for us in regards to pulling our JSON object from the server. Our next two variables are string for the required <strong>NASA POTD URL</strong> (the same as above) and our <strong>API Key</strong>. It is good practice to have your Key in a variable in this fashion to easily change it if needed and to mask it when sharing your source code with others (you might store in a separate file for example). For this short example we are utilizing the DEMO_KEY that NASA uses, but if you are utilizing this API in your app, you should obtain your own key.</p>
+
+			
+
+					<pre><code>req.open("GET", url + api_key, true);
+req.send();</code></pre>
+
+					<p>Next we will make our first request to the NASA server. The open property of XMLHttpRequest can be called with <strong>"open(method, url, async)."</strong> We will be using a <strong>GET request</strong> as we are not sending any information. We also add our <strong>URL</strong> with our API Key added to the end. Lastly <strong>"true"</strong> indicates that we are sending an asychronous request. </p>
+
+
+
+					<pre><code>req.addEventListener("readystatechange", processRequest, false);</code></pre>
+
+					<p>If you are familiar with Java, you know that an EventListener triggers a function when its requirements are met. In this case, we are adding an <strong>Event Listener</strong> to our XMLHttpRequest object. When the <strong>readystatechange</strong> requirements of our object are met it means that our request has been completed and our JSON object returned, and the function <strong>processRequest</strong> fires on cue. </p>
+				
+		
+
+						<pre><code>function processRequest(e){
+	if(req.readyState == 4 && req.status == 200){</code></pre>
+
+					<p>This is our <strong>processRequest function</strong>. When our object is ready, this function fires. We use an if statement to check that our request is complete. <strong>readyState = 4</strong> indicates that the operation is complete. If the status of our req object is 200,  <strong>req.status == 200</strong>, then the request has succeeded and the object has been returned. We can then move on to parsing our object.</p>
+
+				
+
+						<pre><code>var response = JSON.parse(req.responseText);
+      document.getElementById("title").textContent = response.title;
+      document.getElementById("date").textContent = response.date;
+      document.getElementById("explanation").textContent = response.explanation;
+      document.getElementById("pic").src = response.hdurl;
+  }
+}</code></pre>
+
+					<p>At long last we come to code that we are familiar with from our previous JSON examples in the previous <a href="introJSON">chapter</a>. We create a <strong>new variable 'response'</strong> to hold the returned <strong>JSON object</strong>. From here we can parse the JSON object as in previous examples - <strong>JSON.parse(req.responseText)</strong> - and access each element of the object by using <strong>document.getElementById</strong> as we previously discussed. Now with a little HTML added, we have our object coded into our application as intended!</p>
+
+					<div><center>
+					<img src="images/POTDimg.JPG" alt="variables" width="600" height="800"></center>
+					</div><br>
+
+					<p>This brings us to the end of our Picture of the Day section in using the NASA API. This example is fairly straightforward in obtaining the JSON object, parsing it, and displaing the properties of the object we need. Next we will move on to a slightly more complicated feature of the NASA API, but arguably more interesting. Let's find out next what we can do with the Mars Rover Photos API!</p>
+</div>
+
+
+				<div style=padding-top=50px>
+				<p>
+				<center>
+					<h4>Where to Next?</h4>
+							<ul class="actions">
+								<li><a href="introJSON.html" class="button special">Prev: Working with JSON</a></li>
+								<li><a href="marsRov.html" class="button">Next: Mars Rover Images</a></li>
+							</ul>
+							</center>
+					</p>
+				</div>
+			</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+				<div class="copyright">
+					&copy; Erin Alltop. Design by <a href="https://templated.co">TEMPLATED</a>.
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
