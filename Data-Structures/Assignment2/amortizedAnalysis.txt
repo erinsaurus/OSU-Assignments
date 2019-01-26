@@ -1,0 +1,44 @@
+1. How many cost units are spent in the entire process of performing 32 consecutive push operations on an empty array which starts
+out at capacity 8, assuming that the array will double in capacity each time a new item is added to an already full dynamic array? As
+N (ie. the number of pushes) grows large, under this strategy for resizing, what is the big-oh complexity for a push?
+
+The cost units of the operation for performing 32 consecutive push operations can be calculated in this way:
+
+8 cost units to fill the array
+9 cost units for doubling the array plus one additional unit
+8 cost units to fill the array
+17 cost units for doubling the array plus one additional unit
+16 cost units for the remaining steps
+
+The total cost is 58.
+The big-oh complexity for a push using this strategy would be O(1)+ for amortized constant execution time.
+
+
+2. How many cost units are spent in the entire process of performing 32 consecutive push operations on an empty array which starts out
+at capacity 8, assuming that the array will grow by a constant 2 spaces each time a new item is added to an already full dynamic
+array? As N (ie. the number of pushes) grows large, under this strategy for resizing, what is the big-oh complexity for a push?
+
+The cost units can be calucalated in this way:
+
+8 cost units to fill the array
+2 + 1 cost units to increase the array by constant 2 plus on additional unit
+1 unit to fill the remainder of the array
+repeat these two steps until the remaining 32 operations have been completed, 11 times
+
+The total cost is 56.
+The complexity for this operation would be O(n) because it is growing by a constant amount each time.
+
+
+
+3. Suppose that a dynamic array stack doubles its capacity when it is full, and shrinks (on Pop only) its capacity by
+half when the array is half full or less. Can you devise a sequence of N push() and pop() operations which will result in poor
+performance (O(N^2) total cost)? How might you adjust the array's shrinking policy to avoid this? (Hint: You may assume that the
+initial capacity of the array is N/2.)
+
+If the initial capacity of the array is N/2, then poor performance would result if you push(), then pop() which would reduce the 
+capacity of the stack by half as it would be half full. If you continue to do this sequence of operations, the program would be 
+forced to continually compare the elements of the stack with the capacity of the stack to see if it is full. By continually 
+reducing the capacity by half, this will increase the frequency of this operation exponentially, causing O(N^2) performance.
+
+To avoid this type of execution time, I would adjust the array to not shrink at all. This would help avoid an exponential
+comparison and poor performance. 
