@@ -110,7 +110,7 @@ int main() {
      << p2.getFineAmount() << endl;
    */
     
-    Book b1("123", "War and Peace", "Tolstoy");
+/*    Book b1("123", "War and Peace", "Tolstoy");
     Book b2("234", "Moby Dick", "Melville");
     Book b3("345", "Phantom Tollbooth", "Juster");
     Patron p1("abc", "Felicity");
@@ -133,12 +133,12 @@ int main() {
     double p2Fine = p2.getFineAmount();
     
     cout << p1Fine << endl;
-    cout << p2Fine << endl;
+    cout << p2Fine << endl;*/
+
     
     
     
-    
-  /*
+  
      Book b1("123", "War and Peace", "Tolstoy");
     Book b2("234", "Moby Dick", "Melville");
     Book b3("345", "Phantom Tollbooth", "Juster");
@@ -352,7 +352,8 @@ int main() {
     cout << "Attempting to check out a book not in holdings." << endl;
     cout << lib.checkOutBook("abc", "456") << endl;
     
+	system("pause");
     return 0;
-   */
    
+
     }
